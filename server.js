@@ -1,25 +1,26 @@
 const express = require('express');
-const bodyParser = require('body-parser');
-const path = require('path')
 const fs = require('fs').promises;
+const path = require('path');
 
-const app = express();
 const PORT = 3000;
 
+const app = express();
 
-app.use(bodyParser.json());
+app.use(express.json())
 
 
 app.post('/order', async (req, res) => {
-    let number = req.params.number;
+    // let number = req.params.number;
+    console.log(req.body);
     try {
-        await fs.appendFile('data.json', JSON.stringify(req.body, null, 2));
-        res.sendStatus(200);
+        await fs.appendFile('data.json', JSON.stringify(req.body));
+        res.status(200).send();
     } catch (error) {
         console.error('Error saving data:', error);
-        res.sendStatus(500);
+        res.status(500).send();
     }
 });
+
 
 app.get('/data', async (req, res) => {
     try {
